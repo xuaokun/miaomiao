@@ -2,264 +2,20 @@
 	<div class="cinema_body">
 		<div class="wrapper">
 			<ul>
-				<li>
+				<li v-for="item in cinemaList">
 					<div>
-						<span>UA电影城（上海梅龙镇广场店）</span>
+						<span>{{item.nm}}</span>
 						<span class="q">
-							<span class="price"></span>
+							<span class="price">{{item.sellprice}}</span>
 							元起
 						</span>
 					</div>
 					<div class="address">
-						<span>静安区南京西路1038号梅龙镇广场10楼（近江宁路）</span>
-						<span>863.4km</span>
+						<span>{{item.addr}}</span>
+						<span>{{item.distance}}</span>
 					</div>
 					<div class="card">
-						<div class="bl">改签</div>
-						<!---->
-						<!---->
-						<!---->
-						<div class="bl">退</div>
-						<!---->
-						<!---->
-						<!---->
-						<div class="or">折扣卡</div>
-						<div class="or">小吃</div>
-						<!---->
-					</div>
-				</li>
-				<li>
-					<div>
-						<span>大地影院（大华乐购店）</span>
-						<span class="q">
-							<span class="price"></span>
-							元起
-						</span>
-					</div>
-					<div class="address">
-						<span>宝山区大华路518号4楼（华润万家4楼）</span>
-						<span>858.7km</span>
-					</div>
-					<div class="card">
-						<div class="bl">改签</div>
-						<!---->
-						<!---->
-						<!---->
-						<div class="bl">退</div>
-						<!---->
-						<!---->
-						<!---->
-						<div class="or">折扣卡</div>
-						<div class="or">小吃</div>
-						<!---->
-					</div>
-				</li>
-				<li>
-					<div>
-						<span>AMG海上明珠影城（上海莘庄店）</span>
-						<span class="q">
-							<span class="price"></span>
-							元起
-						</span>
-					</div>
-					<div class="address">
-						<span>闵行区沪闵路6088号莘庄凯德龙之梦购物中心4楼（近莘建路）</span>
-						<span>876.9km</span>
-					</div>
-					<div class="card">
-						<div class="bl">改签</div>
-						<!---->
-						<!---->
-						<!---->
-						<div class="bl">退</div>
-						<!---->
-						<!---->
-						<!---->
-						<div class="or">折扣卡</div>
-						<div class="or">小吃</div>
-						<!---->
-					</div>
-				</li>
-				<li>
-					<div>
-						<span>左岸国际电影城（松江沃尔玛店）</span>
-						<span class="q">
-							<span class="price"></span>
-							元起
-						</span>
-					</div>
-					<div class="address">
-						<span>松江区松汇中路568号鹿都沃尔玛广场4楼（近庙前街）</span>
-						<span>888.8km</span>
-					</div>
-					<div class="card">
-						<div class="bl">改签</div>
-						<!---->
-						<!---->
-						<!---->
-						<div class="bl">退</div>
-						<!---->
-						<!---->
-						<!---->
-						<div class="or">折扣卡</div>
-						<div class="or">小吃</div>
-						<!---->
-					</div>
-				</li>
-				<li>
-					<div>
-						<span>嘉定影剧院</span>
-						<span class="q">
-							<span class="price"></span>
-							元起
-						</span>
-					</div>
-					<div class="address">
-						<span>嘉定区城中路149号（城中路人民街）</span>
-						<span>846.7km</span>
-					</div>
-					<div class="card">
-						<div class="bl">改签</div>
-						<!---->
-						<!---->
-						<!---->
-						<div class="bl">退</div>
-						<!---->
-						<!---->
-						<!---->
-						<div class="or">折扣卡</div>
-						<div class="or">小吃</div>
-						<!---->
-					</div>
-				</li>
-				<li>
-					<div>
-						<span>万达影城（宝山万达广场店）</span>
-						<span class="q">
-							<span class="price"></span>
-							元起
-						</span>
-					</div>
-					<div class="address">
-						<span>宝山区一二八纪念路936号5楼（万达广场2号门直达电梯可到）</span>
-						<span>852.8km</span>
-					</div>
-					<div class="card">
-						<div class="bl">改签</div>
-						<!---->
-						<!---->
-						<!---->
-						<div class="bl">退</div>
-						<!---->
-						<!---->
-						<!---->
-						<div class="or">折扣卡</div>
-						<div class="or">小吃</div>
-						<!---->
-					</div>
-				</li>
-				<li>
-					<div>
-						<span>大地影院（弘基广场店）</span>
-						<span class="q">
-							<span class="price"></span>
-							元起
-						</span>
-					</div>
-					<div class="address">
-						<span>宝山区聚丰园路57弄3号弘基文化休闲广场1号楼商场3楼（近上海大学）</span>
-						<span>853.9km</span>
-					</div>
-					<div class="card">
-						<div class="bl">改签</div>
-						<!---->
-						<!---->
-						<!---->
-						<div class="bl">退</div>
-						<!---->
-						<!---->
-						<!---->
-						<div class="or">折扣卡</div>
-						<div class="or">小吃</div>
-						<!---->
-					</div>
-				</li>
-				<li>
-					<div>
-						<span>黄浦剧场</span>
-						<span class="q">
-							<span class="price"></span>
-							元起
-						</span>
-					</div>
-					<div class="address">
-						<span>黄浦区北京东路780号（近贵州路）</span>
-						<span>862.3km</span>
-					</div>
-					<div class="card">
-						<div class="bl">改签</div>
-						<!---->
-						<!---->
-						<!---->
-						<div class="bl">退</div>
-						<!---->
-						<!---->
-						<!---->
-						<div class="or">折扣卡</div>
-						<!---->
-						<!---->
-					</div>
-				</li>
-				<li>
-					<div>
-						<span>万达影城（江桥万达广场店）</span>
-						<span class="q">
-							<span class="price"></span>
-							元起
-						</span>
-					</div>
-					<div class="address">
-						<span>嘉定区金沙江西路1075号江桥万达商业广场3楼（近金运路）</span>
-						<span>862.5km</span>
-					</div>
-					<div class="card">
-						<div class="bl">改签</div>
-						<!---->
-						<!---->
-						<!---->
-						<div class="bl">退</div>
-						<!---->
-						<!---->
-						<!---->
-						<div class="or">折扣卡</div>
-						<div class="or">小吃</div>
-						<!---->
-					</div>
-				</li>
-				<li>
-					<div>
-						<span>新光影艺苑</span>
-						<span class="q">
-							<span class="price"></span>
-							元起
-						</span>
-					</div>
-					<div class="address">
-						<span>黄浦区宁波路586号（近广西北路）</span>
-						<span>862.5km</span>
-					</div>
-					<div class="card">
-						<div class="bl">改签</div>
-						<!---->
-						<!---->
-						<!---->
-						<div class="bl">退</div>
-						<!---->
-						<!---->
-						<!---->
-						<div class="or">折扣卡</div>
-						<!---->
-						<!---->
+						<div :class="key | classCard(key)" v-for="(num,key) in item.tag" v-if="num === 1">{{key | formatCard(key)}}</div>
 					</div>
 				</li>
 			</ul>
@@ -269,7 +25,50 @@
 
 <script>
 	export default{
-		name: 'CList'
+		name: 'CList',
+		data(){
+			return{
+				cinemaList: []
+			}
+		},
+		mounted(){
+			this.axios.get('/api/cinemaList?cityId=10').then((res)=>{
+				var msg = res.data.msg
+				if(msg === 'ok'){
+					this.cinemaList = res.data.data.cinemas
+				}
+			})
+		},
+		filters:{
+			formatCard(key){
+				var card=[
+					{key:'allowRefund',value:'改签'},
+					{key:'endorse',value:'可退'},
+					{key:'sell',value:'折扣卡'},
+					{key:'snack',value:'小吃'}
+				];
+				for(var i = 0;i < card.length; i++){
+					if(card[i].key === key){
+						return card[i].value
+					}
+				}
+				return ''
+			},
+			classCard(key){
+				var card=[
+					{key:'allowRefund',value:'bl'},
+					{key:'endorse',value:'bl'},
+					{key:'sell',value:'or'},
+					{key:'snack',value:'or'}
+				];
+				for(var i = 0;i < card.length; i++){
+					if(card[i].key === key){
+						return card[i].value
+					}
+				}
+				return ''
+			}
+		}
 	}
 </script>
 
