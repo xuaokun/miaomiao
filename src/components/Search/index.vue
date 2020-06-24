@@ -44,11 +44,12 @@ export default {
 	},
 	watch: {
 		message(newVal) {
+			var cityId = this.$store.state.city.id;
 			var that = this
 			 // 取消上一次请求
 			this.cancelRequest();
 			this.axios
-				.get('/api/searchList?cityId=10&kw=' + newVal, {
+				.get('/api/searchList?cityId='+ cityId + '&kw=' + newVal, {
 					cancelToken: new this.axios.CancelToken(function executor(c) {
 						that.source = c;
 					})
