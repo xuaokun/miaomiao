@@ -4,9 +4,8 @@
 		<Loading v-if="isLoading"></Loading>
 		<div v-else id="content" class="contentDetail">
 			<div class="detail_list">
-				<div
-					class="detail_list_bg"
-					style="background-image: url(&quot;http://p1.meituan.net/148.208/moviemachine/6664cd8c31f1254bc52793a158dc53ff8811971.jpg&quot;);"
+				<!-- <div class="detail_list_bg" :style="'background-image:url(' + detailMovie.img.replace(/w\.h/,'148.208') + ')'" -->
+				<div class="detail_list_bg" :style="{'background-image' : 'url(' + detailMovie.img.replace(/w\.h/,'148.208') + ')'} "
 				></div>
 				<div class="detail_list_filter"></div>
 				<div class="detail_list_content">
