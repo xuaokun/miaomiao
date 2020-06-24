@@ -1,24 +1,29 @@
 <template>
-	<div data-v-717db445="" class="city_body">
+	<div class="city_body">
 		<div class="city_list">
-			<div class="city_hot">
-				<h2>热门城市</h2>
-				<ul class="clearfix">
-					<li v-for="item in hotList">{{item.nm}}</li>
-				</ul>
-			</div>
-			<div class="city_sort" ref="city_sort">
-				<div v-for="item in cityList">
-					<h2>{{item.index}}</h2>
-					<ul>
-						<li v-for="itemList in item.list">{{itemList.nm}}</li>
-					</ul>
+			<Loading v-if="isLoading"></Loading>
+			<Scroller ref="city_list">
+				<div>
+					<div class="city_hot">
+						<h2>热门城市</h2>
+						<ul class="clearfix">
+							<li v-for="item in hotList" @tap="handleToCity(item.nm,item.id)">{{ item.nm }}</li>
+						</ul>
+					</div>
+					<div class="city_sort" ref="city_sort">
+						<div v-for="item in cityList">
+							<h2>{{ item.index }}</h2>
+							<ul>
+								<li v-for="itemList in item.list" @tap="handleToCity(itemList.nm,itemList.id)">{{ itemList.nm }}</li>
+							</ul>
+						</div>
+					</div>
 				</div>
-			</div>
+			</Scroller>
 		</div>
 		<div class="city_index">
 			<ul>
-				<li @touchstart="handleToIndex(index)" v-for="(item,index) in cityList">{{item.index}}</li>
+				<li @touchstart="handleToIndex(index)" v-for="(item, index) in cityList">{{ item.index }}</li>
 			</ul>
 		</div>
 	</div>
@@ -27,33 +32,45 @@
 <script>
 export default {
 	name: 'City',
-	data(){
-		return{
+	data() {
+		return {
 			cityList: [],
-			hotList: []
-		}
+			hotList: [],
+			isLoading: true
+		};
 	},
 	mounted() {
-		this.axios.get('/api/citylist').then(res => {
-			var msg = res.data.msg;
-			if (msg === 'ok') {
-				var cities = res.data.data.cities;
-				var {cityList,hotList} = this.formatCityList(cities);
-				this.cityList = cityList;
-				this.hotList = hotList;
-			}
-		}); 
+		var cityList = window.localStorage.getItem('cityList');
+		var hotList = window.localStorage.getItem('hotList');
+		if (cityList && hotList) {
+			this.isLoading = false
+			this.cityList = JSON.parse(cityList);
+			this.hotList = JSON.parse(hotList);
+		} else {
+			this.axios.get('/api/citylist').then(res => {
+				var msg = res.data.msg;
+				if (msg === 'ok') {
+					var cities = res.data.data.cities;
+					var { cityList, hotList } = this.formatCityList(cities);
+					this.cityList = cityList;
+					this.hotList = hotList;
+					this.isLoading = false;
+					window.localStorage.setItem('cityList', JSON.stringify(cityList));
+					window.localStorage.setItem('hotList', JSON.stringify(hotList));
+				}
+			});
+		}
 	},
 	methods: {
 		formatCityList(cities) {
 			var cityList = [];
 			var hotList = [];
-			for(var i  = 0; i< cities.length; i++){
-				if(cities[i].isHot === 1){
-					hotList.push(cities[i])
+			for (var i = 0; i < cities.length; i++) {
+				if (cities[i].isHot === 1) {
+					hotList.push(cities[i]);
 				}
 			}
-/* 			console.log(hotList) */
+			/* 			console.log(hotList) */
 			for (var i = 0; i < cities.length; i++) {
 				var firstLetter = cities[i].py.substring(0, 1).toUpperCase();
 				if (isNewIndex(firstLetter)) {
@@ -66,14 +83,14 @@ export default {
 					}
 				}
 			}
-			cityList.sort((n1,n2)=>{
-				if(n1.index > n2.index){
+			cityList.sort((n1, n2) => {
+				if (n1.index > n2.index) {
 					return 1;
-				}else{
+				} else {
 					return -1;
 				}
-			})
-/* 			console.log(cityList); */
+			});
+			/* 			console.log(cityList); */
 			function isNewIndex(firstLetter) {
 				//查找是否已在列表中
 				for (var i = 0; i < cityList.length; i++) {
@@ -86,15 +103,21 @@ export default {
 			return {
 				cityList,
 				hotList
-			}
+			};
 		},
-		handleToIndex(index){
-			var h2 = this.$refs.city_sort.getElementsByTagName('h2')
-			console.log(h2[index].offsetTop,this.$refs.city_sort.parentNode.scrollTop)
-			this.$refs.city_sort.parentNode.scrollTop = h2[index].offsetTop
+		handleToIndex(index) {
+			var h2 = this.$refs.city_sort.getElementsByTagName('h2');
+			console.log(h2[index].offsetTop, this.$refs.city_sort.parentNode.scrollTop);
+			this.$refs.city_list.toScrollTop(-h2[index].offsetTop);
+		},
+		handleToCity(nm,id){
+			this.$store.commit('city/CITY_INFO',{nm,id})
+			window.localStorage.setItem('nownm',nm)
+			window.localStorage.setItem('nowid',id)
+			this.$router.push('/movie/nowplaying')
 		}
 	}
-}
+};
 </script>
 
 <style scoped>

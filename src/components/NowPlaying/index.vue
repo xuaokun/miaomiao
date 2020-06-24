@@ -1,23 +1,27 @@
 <template>
 	<div class="movie_body">
-		<ul>
-			<li v-for="item in movieList">
-				<div class="pic_show"><img :src="item.img | setWH('128.180')" /></div>
-				<div class="info_list">
-					<h2>
-						{{item.nm}}
-						<!---->
-					</h2>
-					<p>
-						观众评
-						<span class="grade">{{item.sc}}</span>
-					</p>
-					<p>主演: {{item.star}}</p>
-					<p></p>
-				</div>
-				<div class="btn_mall">购票</div>
-			</li>
-		</ul>
+		<Loading v-if="isLoading"></Loading>
+		<Scroller v-else :handleOnScroll="handleOnScroll" :handleOnTouchEnd="handleOnTouchEnd">
+			<ul>
+				<li>{{pulldownMsg}}</li>
+				<li v-for="item in movieList" @tap="HandleToDetail">
+					<div class="pic_show"><img :src="item.img | setWH('128.180')" /></div>
+					<div class="info_list">
+						<h2>
+							{{item.nm}}
+							<!---->
+						</h2>
+						<p>
+							观众评
+							<span class="grade">{{item.sc}}</span>
+						</p>
+						<p>主演: {{item.star}}</p>
+						<p></p>
+					</div>
+					<div class="btn_mall">购票</div>
+				</li>
+			</ul>
+		</Scroller>
 	</div>
 </template>
 
@@ -26,17 +30,51 @@ export default {
 	name: 'NowPlaying',
 	data(){
 		return{
-			movieList: []
+			movieList: [],
+			pulldownMsg: '',
+			isLoading: true,
+			preCityId: -1
 		}
 	},
-	mounted(){
-		this.axios.get('/api/movieOnInfoList?cityId=10').then((res)=>{
+	activated(){
+		var cityId = this.$store.state.city.id;
+		if(cityId === this.preCityId){
+			return 
+		}
+		this.isLoading = true
+		this.axios.get('/api/movieOnInfoList?cityId=' + cityId).then((res)=>{
 			/* console.log(res.data.data.movieList) */
 			var msg = res.data.msg
 			if(msg === 'ok'){
-			this.movieList = res.data.data.movieList				
+			this.movieList = res.data.data.movieList	
+			this.isLoading = false
+			this.preCityId = cityId
 			}
 		})
+	},
+	methods:{
+		HandleToDetail(){
+			console.log('详情')
+		},
+		handleOnScroll(pos){
+			if(pos.y > 30){
+				this.pulldownMsg = '正在更新中'
+			}
+		},
+		handleOnTouchEnd(pos){
+			if(pos.y > 30){
+				this.axios.get('/api/movieOnInfoList?cityId=11').then((res)=>{
+					var msg = res.data.msg
+					if(msg === 'ok'){
+						this.pulldownMsg = '更新成功'
+						setTimeout(()=>{
+							this.movieList = res.data.data.movieList
+							this.pulldownMsg = ''
+						},1000)
+					}
+				})
+			}
+		}
 	}
 };
 </script>
