@@ -4,11 +4,11 @@
 		<Scroller v-else>
 			<ul>
 				<li v-for="item in movieList">
-					<div class="pic_show">
+					<div class="pic_show" @tap="handleToDetail(item.id)">
 						<img :src="item.img | setWH('128.180')" />
 					</div>
 					<div class="info_list">
-						<h2>
+						<h2 @tap="handleToDetail(item.id)">
 							{{item.nm}}
 							<!---->
 						</h2>
@@ -42,7 +42,7 @@ export default {
 			return 
 		}
 		this.isLoading = true
-		this.axios.get('/api/movieComingList?cityId=' + cityId).then((res)=>{
+		this.axios.get('/api/movieOnInfoList?cityId=' + cityId).then((res)=>{
 			console.log(res.data.data.movieList)
 			var msg = res.data.msg
 			if(msg === 'ok'){
@@ -51,6 +51,11 @@ export default {
 			this.preCityId = cityId
 			}
 		})
+	},
+	methods:{
+		 handleToDetail(movieId){
+			 this.$router.push('/movie/detail/2/'+movieId)
+		 }
 	}
 };
 </script>

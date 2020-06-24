@@ -19,6 +19,7 @@
 		</div>
 		<MessageBox></MessageBox>
 		<Tabbar></Tabbar>
+		<router-view name="detail"></router-view>
 	</div>
 </template>
 
