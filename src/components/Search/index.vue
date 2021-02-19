@@ -49,14 +49,14 @@ export default {
 			 // 取消上一次请求
 			this.cancelRequest();
 			this.axios
-				.get('/api/searchList?cityId='+ cityId + '&kw=' + newVal, {
+				.get('/api/search?q=' + newVal, {
 					cancelToken: new this.axios.CancelToken(function executor(c) {
 						that.source = c;
 					})
 				})
 				.then(res => {
 					console.log(res);
-					var msg = res.data.msg;
+					var msg = res.statusText
 					var movie = res.data.data.movies.list;
 					if (msg === 'ok' && movie) {
 						this.movieList = movie;

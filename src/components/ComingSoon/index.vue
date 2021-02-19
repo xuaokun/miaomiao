@@ -5,19 +5,19 @@
 			<ul>
 				<li v-for="item in movieList">
 					<div class="pic_show" @tap="handleToDetail(item.id)">
-						<img :src="item.img | setWH('128.180')" />
+						<img :src="item.images.small" />
 					</div>
 					<div class="info_list">
 						<h2 @tap="handleToDetail(item.id)">
-							{{item.nm}}
+							{{item.title}}
 							<!---->
 						</h2>
 						<p>
-							<span class="person">{{item.wish}}</span>
+							<span class="person">{{item.collect_count}}</span>
 							人想看
 						</p>
-						<p>主演: {{item.star}}</p>
-						<p>{{item.comingTitle}}上映</p>
+						<p>主演: <span v-for="star in item.casts">{{star.name}}</span></p>
+						<p>{{item.mainland_pubdate}}上映</p>
 					</div>
 					<div class="btn_pre">预售</div>
 				</li>
@@ -42,11 +42,11 @@ export default {
 			return 
 		}
 		this.isLoading = true
-		this.axios.get('/api/movieOnInfoList?cityId=' + cityId).then((res)=>{
-			console.log(res.data.data.movieList)
-			var msg = res.data.msg
-			if(msg === 'ok'){
-			this.movieList = res.data.data.movieList	
+		this.axios.get('/api/coming_soon?apikey=0df993c66c0c636e29ecbb5344252a4a').then((res)=>{
+			// console.log(res)
+			var msg = res.statusText
+			if(msg === 'OK'){
+			this.movieList = res.data.subjects
 			this.isLoading = false
 			this.preCityId = cityId
 			}

@@ -7,14 +7,14 @@
 					<div class="city_hot">
 						<h2>热门城市</h2>
 						<ul class="clearfix">
-							<li v-for="item in hotList" @tap="handleToCity(item.nm,item.id)">{{ item.nm }}</li>
+							<li v-for="item in hotList" @tap="handleToCity(item)">{{ item }}</li>
 						</ul>
 					</div>
 					<div class="city_sort" ref="city_sort">
 						<div v-for="item in cityList">
-							<h2>{{ item.index }}</h2>
+							<h2>{{ item.title }}</h2>
 							<ul>
-								<li v-for="itemList in item.list" @tap="handleToCity(itemList.nm,itemList.id)">{{ itemList.nm }}</li>
+								<li v-for="itemList in item.lists" @tap="handleToCity(itemList)">{{ itemList }}</li>
 							</ul>
 						</div>
 					</div>
@@ -23,7 +23,7 @@
 		</div>
 		<div class="city_index">
 			<ul>
-				<li @touchstart="handleToIndex(index)" v-for="(item, index) in cityList">{{ item.index }}</li>
+				<li @touchstart="handleToIndex(index)" v-for="(item, index) in cityList">{{ item.title }}</li>
 			</ul>
 		</div>
 	</div>
@@ -47,16 +47,18 @@ export default {
 			this.cityList = JSON.parse(cityList);
 			this.hotList = JSON.parse(hotList);
 		} else {
-			this.axios.get('/api/citylist').then(res => {
-				var msg = res.data.msg;
-				if (msg === 'ok') {
-					var cities = res.data.data.cities;
-					var { cityList, hotList } = this.formatCityList(cities);
-					this.cityList = cityList;
-					this.hotList = hotList;
+			this.axios.get('/api2/users/getCityList').then(res => {
+				console.log(res)
+				var status = res.data.status;
+				if (status === 0) {
+					var cities = res.data.data.list;
+					// var { cityList, hotList } = this.formatCityList(cities);
+					this.cityList = cities.city;
+					this.hotList = cities.hotList;
+					console.log(this.cityList,this.hotList)
 					this.isLoading = false;
-					window.localStorage.setItem('cityList', JSON.stringify(cityList));
-					window.localStorage.setItem('hotList', JSON.stringify(hotList));
+					window.localStorage.setItem('cityList', JSON.stringify(this.cityList));
+					window.localStorage.setItem('hotList', JSON.stringify(this.hotList));
 				}
 			});
 		}

@@ -5,17 +5,17 @@
 			<ul>
 				<li>{{pulldownMsg}}</li>
 				<li v-for="item in movieList" @tap="HandleToDetail(item.id)">
-					<div class="pic_show"><img :src="item.img | setWH('128.180')" /></div>
+					<div class="pic_show"><img :src="item.images.small"/></div>
 					<div class="info_list">
 						<h2>
-							{{item.nm}}
+							{{item.title}}
 							<!---->
 						</h2>
 						<p>
 							观众评
-							<span class="grade">{{item.sc}}</span>
+							<span class="grade">{{item.rating.average}}</span>
 						</p>
-						<p>主演: {{item.star}}</p>
+						<p>主演: <span v-for="star in item.casts">{{star.name + ' '}}</span></p>
 						<p></p>
 					</div>
 					<div class="btn_mall">购票</div>
@@ -42,11 +42,11 @@ export default {
 			return 
 		}
 		this.isLoading = true
-		this.axios.get('/api/movieOnInfoList?cityId=' + cityId).then((res)=>{
-			/* console.log(res.data.data.movieList) */
-			var msg = res.data.msg
-			if(msg === 'ok'){
-			this.movieList = res.data.data.movieList	
+		this.axios.get('/api/in_theaters?apikey=0df993c66c0c636e29ecbb5344252a4a').then((res)=>{
+			// console.log(res)
+			var msg = res.statusText
+			if(msg === 'OK'){
+			this.movieList = res.data.subjects
 			this.isLoading = false
 			this.preCityId = cityId
 			}
@@ -63,12 +63,12 @@ export default {
 		},
 		handleOnTouchEnd(pos){
 			if(pos.y > 30){
-				this.axios.get('/api/movieOnInfoList?cityId=11').then((res)=>{
-					var msg = res.data.msg
-					if(msg === 'ok'){
+				this.axios.get('/api/in_theaters?apikey=0df993c66c0c636e29ecbb5344252a4a').then((res)=>{
+					var msg = res.statusText
+					if(msg === 'OK'){
 						this.pulldownMsg = '更新成功'
 						setTimeout(()=>{
-							this.movieList = res.data.data.movieList
+							this.movieList = res.data.subjects
 							this.pulldownMsg = ''
 						},1000)
 					}

@@ -5,30 +5,38 @@
 		<div v-else id="content" class="contentDetail">
 			<div class="detail_list">
 				<!-- <div class="detail_list_bg" :style="'background-image:url(' + detailMovie.img.replace(/w\.h/,'148.208') + ')'" -->
-				<div class="detail_list_bg" :style="{'background-image' : 'url(' + detailMovie.img.replace(/w\.h/,'148.208') + ')'} "
+				<div class="detail_list_bg" :style="{'background-image' : 'url(' + detailMovie.images.small + ')'} "
 				></div>
 				<div class="detail_list_filter"></div>
 				<div class="detail_list_content">
-					<div class="detail_list_img"><img :src="detailMovie.img | setWH('148.208')" alt="" /></div>
+					<div class="detail_list_img"><img :src="detailMovie.images.small" preview="1" alt="" /></div>
 					<div class="detail_list_info">
-						<h2>{{detailMovie.nm}}</h2>
-						<p>{{detailMovie.enm}}</p>
-						<p>{{detailMovie.sc}}</p>
-						<p>{{detailMovie.cat}}</p>
-						<p>{{detailMovie.src}}/{{detailMovie.dur}}分钟</p>
-						<p>{{detailMovie.pubDesc}}</p>
+						<h2>{{detailMovie.title}}</h2>
+						<p>{{detailMovie.original_title}}</p>
+						<p>{{detailMovie.rating.average}}</p>
+						<p>{{detailMovie.genres}}</p>
+						<p>{{detailMovie.durations}}</p>
+						<p>{{detailMovie.pubdate}}</p>
 					</div>
 				</div>
 			</div>
 			<div class="detail_intro">
 				<p>
-					{{detailMovie.dra}}
+					{{detailMovie.summary}}
 				</p>
 			</div>
-			<div class="detail_player swiper-container swiper-container-horizontal swiper-container-free-mode swiper-container-wp8-horizontal">
-				<ul class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px);">
-					<li class="swiper-slide swiper-slide-active" v-for="img in detailMovie.photos">
-						<div><img :src="img | setWH('140.120')" alt="" /></div>
+<!-- 			<div class=" swiper-container gallery">
+				<ul class="swiper-wrapper">
+					<li class="swiper-slide" v-for="photo in detailMovie.photos">
+						<div><img :src="photo.image" alt="" /></div>
+					</li>
+				</ul>
+				
+			</div> -->
+			<div class="detail_player swiper-container thumbs">
+				<ul class="swiper-wrapper">
+					<li class="swiper-slide" v-for="(photo,index) in detailMovie.photos">
+						<div><img :src="photo.image"  preview="0"/></div>
 					</li>
 				</ul>
 			</div>
@@ -57,17 +65,26 @@ export default {
 	},
 	mounted() {
 		// console.log(this.movieId)
-		this.axios.get('/api/detailmovie?movieId=' + this.movieId).then(res => {
-			var msg = res.data.msg;
-			if (msg === 'ok') {
-				this.detailMovie = res.data.data.detailMovie;
+		this.axios.get('/api/subject/' + this.movieId + '?apikey=0df993c66c0c636e29ecbb5344252a4a').then(res => {
+			// console.log(res)
+			var msg = res.statusText;
+			if (msg === 'OK') {
+				this.detailMovie = res.data;
 				this.isLoading = false;
 				this.$nextTick(()=>{
-					new Swiper ('.swiper-container', {
-					    slidesPerView: 'auto',
-						freeMode: true,
-						freeModeSticky: true
+					var thumbsSwiper = new Swiper ('.thumbs', {
+						spaceBetween: 10,
+					    slidesPerView: 3,
+						watchSlidesVisibility: true,//防止不可点击
 					})
+					this.$previewRefresh()
+
+					// var gallerySwiper = new Swiper('.gallery',{
+					//   spaceBetween: 10,
+					//   thumbs: {
+					//     swiper: thumbsSwiper
+					//   }
+					// })
 				})
 			}
 		});
